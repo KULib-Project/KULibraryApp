@@ -60,11 +60,21 @@ export default function LoginScreen ({navigation}) {
    //https://library-2022.herokuapp.com/auth/google/user -> db 링크
   //https://f7479681-8640-4929-b771-f41103825403.mock.pstmn.io/userData -> test mockup 링크
 const giveGoogleUser = async (accessToken) => {
-        const giveUser = await axios.post('https://f7479681-8640-4929-b771-f41103825403.mock.pstmn.io/userData', {
-            "accessToken": accessToken,
-            "userInfo": gUser
+        const giveUser = await axios.post('https://library-2022.herokuapp.com/auth/google/user', {
+          "accessToken": accessToken,
+          "userInfo": {
+            "id": JSON.stringify(gUser.id),
+            "email": JSON.stringify(gUser.email),
+            "verified_email": JSON.stringify(gUser.verified_email),
+            "name": JSON.stringify(gUser.name),
+            "given_name": JSON.stringify(gUser.given_name),
+            "family_name": JSON.stringify(gUser.family_name),
+            "picture": JSON.stringify(gUser.picture),
+            "locale": JSON.stringify(gUser.locale),
+            "hd": JSON.stringify(gUser.hd)
+          }
         }).then(function(response){
-            if (response.status == 201) {
+            if (response.status == 200) {
               ///데이터베이스에 있을 경우 ( 기존 회원 )
               console.log('11111');
               AsyncStorage.setItem(
@@ -80,11 +90,11 @@ const giveGoogleUser = async (accessToken) => {
                 },
               );
               navigation.replace('Home');
-            } else { ///데이터베이스에 없을 경우 ( 신규 회원 )
+            } else if (response.status == 201){ ///데이터베이스에 없을 경우 ( 신규 회원 )
               AsyncStorage.setItem(
                 //유저 정보를 로컬에 저장하는 역할인데..수정 필요.
                 'user_id',
-                JSON.stringify(gUser.userInfo['id']),
+                JSON.stringify(gUser),
                 () => {
                   console.log('유저정보 저장 완료');
                 },

@@ -15,24 +15,7 @@ import axios from 'axios';
 import DropDownPicker from 'react-native-dropdown-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-//PostScreen의 수정 중  버전
-String.prototype.string = function (len) {
-    var s = '',
-      i = 0;
-    while (i++ < len) {
-      s += this;
-    }
-    return s;
-  };
-  String.prototype.zf = function (len) {
-    return '0'.string(len - this.length) + this;
-  };
-  Number.prototype.zf = function (len) {
-    return this.toString().zf(len);
-  };
 
-// ^ 이 부분 코드 이해하기
-//입력받은 문자열 관련한 코드인데 좀 더 자세히 무슨 기능을 하는지 알아볼 것
 
 const Post = ({navigation}) => {
     const [id, setId] = useState(0);
@@ -58,14 +41,14 @@ const Post = ({navigation}) => {
       //휴대폰 저장소 동기화 아이템 가져오기
       AsyncStorage.getItem('User', (error, result) => {
         //로컬에서 유저 데이터 불러오는 부분 현재 작동 안함 수정 필요
-        console.log(result);
+        // console.log(result);
         const UserInfo = JSON.parse(result);
         setId(UserInfo);
       });
       const postUser = () => {
         //글 post해서 db에 데이터 넘겨주는 파트
         //현재 문제점, 데이터를 입력해도 null만 뜬다. 게시글 등록 완료라고는 뜨지만 등록이 안됨.
-        axios.post('https://f7479681-8640-4929-b771-f41103825403.mock.pstmn.io/post', {
+        axios.post('https://library-2022.herokuapp.com//notice/save', {
             author: id,
             title: title,
             text: text,
@@ -73,6 +56,7 @@ const Post = ({navigation}) => {
             //category: value,
           })
           .then(function (response) {
+            console.log(id, title,text,date);
             console.log('게시글 등록 완료');
             navigation.replace('Home');
           })
@@ -130,34 +114,3 @@ action: {
     marginTop: 50
   },
 });
-
-// 메모리 누수 해결 참고할 코드
-// const [value, setValue] = useState('checking value...');
-// useEffect(() => {
-// let isMounted = true;
-// fetchValue().then(() => {
-//       if(isMounted ){
-//       setValue("done!"); // no more error
-//       } 
-//     });
-//    return () => {
-//     isMounted = false;
-//     };
-// }, []);
-
-
-// useEffect(() => {  
-//     let abortController = new AbortController();  
-//     // your async action is here  
-//     return () => {  
-//     abortController.abort();  
-//     }  
-//     }, []);
-
-
-// const [value, setValue] = useStateIfMounted('checking value...');
-//     useEffect(() => {
-//     	fetchValue().then(() => {
-//           setValue("done!"); // no more error
-//         });
-//     }, []);
