@@ -9,15 +9,17 @@ function HomeScreen({navigation}){
             onPress={()=>navigation.navigate('Search')}/>
             <Button title='Login'
             onPress={()=>navigation.navigate('Login')}/>
+            <Button title='Log Out'
+            onPress={()=>navigation.navigate('Log Out')}/>
             <Button title='Detail'
             onPress={()=>navigation.navigate('Detail')}/>
             <Button title='Home'
             onPress={()=>navigation.navigate('Home')}/>
             <Button title='Auth'
             onPress={()=>navigation.navigate('Auth')}/>
-             <Button title='Post'
+            <Button title='Post'
             onPress={()=>navigation.navigate('Post')}/>
-             <Button title='Show Post'
+            <Button title='Show Post'
             onPress={()=>navigation.navigate('Show')}/>
         </View>
     )

@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Post = ({navigation}) => {
+    const [isLoding, setIsLoding] = useState(false);
     const [id, setId] = useState(0);
     //유저 id 변수
     const [title, setTitle] = useState('');
@@ -27,7 +28,7 @@ const Post = ({navigation}) => {
     const [date, setDate] = useState('');
     //post 날짜
     useEffect(() => {
-        
+        setIsLoding(true);
         var date = new Date().getDate(); //Current Date
         var month = new Date().getMonth() + 1; //Current Month
         var year = new Date().getFullYear(); //Current Year
@@ -38,6 +39,7 @@ const Post = ({navigation}) => {
           date + '/' + month + '/' + year 
           + ' ' + hours + ':' + min + ':' + sec
         );
+        return () => setIsLoding(false); // cleanup function
       }, []); 
       AsyncStorage.getItem('User', (error, result) => {
         const UserInfo = JSON.parse(result);
