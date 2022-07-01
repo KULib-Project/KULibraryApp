@@ -27,6 +27,7 @@ const Post = ({navigation}) => {
     const [date, setDate] = useState('');
     //post 날짜
     useEffect(() => {
+        
         var date = new Date().getDate(); //Current Date
         var month = new Date().getMonth() + 1; //Current Month
         var year = new Date().getFullYear(); //Current Year
@@ -37,18 +38,15 @@ const Post = ({navigation}) => {
           date + '/' + month + '/' + year 
           + ' ' + hours + ':' + min + ':' + sec
         );
-      }, []); //메모리 누수 잡기
-      //휴대폰 저장소 동기화 아이템 가져오기
+      }, []); 
       AsyncStorage.getItem('User', (error, result) => {
-        //로컬에서 유저 데이터 불러오는 부분 현재 작동 안함 수정 필요
-        // console.log(result);
         const UserInfo = JSON.parse(result);
         setId(UserInfo);
       });
       const postUser = () => {
         //글 post해서 db에 데이터 넘겨주는 파트
         //현재 문제점, 데이터를 입력해도 null만 뜬다. 게시글 등록 완료라고는 뜨지만 등록이 안됨.
-        axios.post('https://library-2022.herokuapp.com//notice/save', {
+        axios.post('https://library-2022.herokuapp.com/notice/save', {
             author: id,
             title: title,
             text: text,
@@ -59,6 +57,7 @@ const Post = ({navigation}) => {
             console.log(id, title,text,date);
             console.log('게시글 등록 완료');
             navigation.replace('Home');
+
           })
           .catch(function (error) {
             console.log(error);

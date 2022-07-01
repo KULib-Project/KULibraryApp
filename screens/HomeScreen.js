@@ -17,6 +17,8 @@ function HomeScreen({navigation}){
             onPress={()=>navigation.navigate('Auth')}/>
              <Button title='Post'
             onPress={()=>navigation.navigate('Post')}/>
+             <Button title='Show Post'
+            onPress={()=>navigation.navigate('Show')}/>
         </View>
     )
 }

@@ -5,6 +5,7 @@ import axios from 'axios';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Linking from 'expo-linking';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -73,37 +74,30 @@ const giveGoogleUser = async (accessToken) => {
             "locale": JSON.stringify(gUser.locale),
             "hd": JSON.stringify(gUser.hd)
           }
-        }).then(function(response){
-            if (response.status == 200) {
+        }).then(response=>{
               ///데이터베이스에 있을 경우 ( 기존 회원 )
               console.log('11111');
-              AsyncStorage.setItem(
-                'User',
-                JSON.stringify({
-                  id: response.data.id,
-                  email: gUser.email,
-                  picture: gUser.picture,
-                }),
-                () => {
-                  console.log('유저정보 저장 완료');
-                  console.log(gUser.id);
-                },
-              );
+              console.log(response.status);
+              storageData();
               navigation.replace('Home');
-            } else if (response.status == 201){ ///데이터베이스에 없을 경우 ( 신규 회원 )
-              AsyncStorage.setItem(
-                //유저 정보를 로컬에 저장하는 역할인데..수정 필요.
-                'user_id',
-                JSON.stringify(gUser),
-                () => {
-                  console.log('유저정보 저장 완료');
-                },
-              );
-              navigation.replace('Home');
-            }
-          })
+            } 
+          )
         .catch(console.error)
         .finally(()=>setIsLoding(false));
+    }
+
+    storageData=async()=>{
+      await AsyncStorage.setItem(
+        'User',
+        JSON.stringify({
+          id: gUser.id,
+          email: gUser.email,
+          picture: gUser.picture,
+        }),
+        () => {
+          console.log('유저정보 저장 완료');
+          console.log(gUser.id);
+        })
     }
 
     return (
