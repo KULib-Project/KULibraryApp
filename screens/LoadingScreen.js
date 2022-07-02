@@ -6,18 +6,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function LogadingScreen ({navigation}) {
     const [isLoding,setIsLoding]=useState(false);
     const [gUser, setGUser] = useState('');
+    const [isNull,setIsNull]=useState();
     const userLog=async()=>{
         console.log(AsyncStorage.getItem('User', (error, result) => {
           const UserInfo = JSON.parse(result);
           setGUser(UserInfo)
+          if(gUser != ''){
+            setIsNull(false);
+          }else{
+            setIsNull(true);
+          }
         }))
       };
     useEffect(() => {
         setIsLoding(true);
         userLog();
-        if (gUser != '') {
-            console.log(gUser)
+        if (isNull === false) {
+            
+            setIsNull(true);
             navigation.replace('Home');
+            
         }else{
             console.log("로그인을 해주십시오.")
             navigation.replace('Login');
