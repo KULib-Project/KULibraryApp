@@ -9,8 +9,6 @@ function HomeScreen({navigation}){
             onPress={()=>navigation.navigate('Search')}/>
             <Button title='Login'
             onPress={()=>navigation.navigate('Login')}/>
-            <Button title='Log Out'
-            onPress={()=>navigation.navigate('Log Out')}/>
             <Button title='Detail'
             onPress={()=>navigation.navigate('Detail')}/>
             <Button title='Home'

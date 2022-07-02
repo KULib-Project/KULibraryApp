@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const Post = ({navigation}) => {
     const [isLoding, setIsLoding] = useState(false);
     const [id, setId] = useState(0);
+    const [email, setEmail] = useState(0);
     //유저 id 변수
     const [title, setTitle] = useState('');
     //post 제목
@@ -43,20 +44,19 @@ const Post = ({navigation}) => {
       }, []); 
       AsyncStorage.getItem('User', (error, result) => {
         const UserInfo = JSON.parse(result);
-        setId(UserInfo);
+        setId(UserInfo.id);
+        setEmail(UserInfo.email);
       });
       const postUser = () => {
         //글 post해서 db에 데이터 넘겨주는 파트
         //현재 문제점, 데이터를 입력해도 null만 뜬다. 게시글 등록 완료라고는 뜨지만 등록이 안됨.
         axios.post('https://library-2022.herokuapp.com/notice/save', {
-            author: id,
-            title: title,
-            text: text,
-            date: date,
-            //category: value,
+            email:email,
+            content:text,
+            title:title,
           })
           .then(function (response) {
-            console.log(id, title,text,date);
+            console.log(email, title,text);
             console.log('게시글 등록 완료');
             navigation.replace('Home');
 
@@ -69,7 +69,7 @@ const Post = ({navigation}) => {
     return(
         <View style={styles.boxOne}>
             <View style={styles.action}>
-                <TextInput placeholder={'제목을 입력하세요'} style={styles.textInput} autoComplete={'off'} autoCapitalize={'none'} onChangeText={text => setTitle(text)}/>
+                <TextInput placeholder={'제목을 입력하세요'} style={styles.textInput} autoComplete={'off'} autoCapitalize={'none'} onChangeText={title => setTitle(title)}/>
             </View>
             <View style={[styles.action, {marginTop: 10}]}>
                 <TextInput placeholder={'본문 내용을 입력하세요'} style={[styles.textInput, {height:180}]} autoComplete={'off'} autoCapitalize={'none'} multiline={true} onChangeText={text => setText(text)}/>
