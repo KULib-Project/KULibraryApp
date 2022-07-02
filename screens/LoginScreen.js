@@ -74,10 +74,14 @@ const giveGoogleUser = async (accessToken) => {
           }
         }).then(response=>{
               ///데이터베이스에 있을 경우 ( 기존 회원 )
-              console.log('11111');
+              if(response.status==200){
+                console.log('11111');
               console.log(response.status);
+
               storageData();
               navigation.replace('Home');
+              }
+              
             } 
           )
         .catch(console.error)
@@ -103,7 +107,9 @@ const logout=async()=>{
   console.log(AsyncStorage.getItem('User', (error, result) => {
     const UserInfo = JSON.parse(result);
     console.log(UserInfo)
+    navigation.replace("Load");
   }))
+  
 }
 const userLog=async()=>{
   console.log(AsyncStorage.getItem('User', (error, result) => {
