@@ -19,7 +19,7 @@ const Stack = createNativeStackNavigator();
 function App(){
   return <NavigationContainer>
     {/* 네비게이션 설정 */}
-    <Stack.Navigator initialRouteName="Load">
+    <Stack.Navigator initialRouteName="Home">
     {/*  <Stack.Navigator initialRouteName="Home"> 초기 페이지 설정 */}
       {/* <Stack.Screen name="Home" -> 스크린 닉네임 이걸로 다른 페이지로 넘어가는 코드 짤 때 사용 component={HomeScreen}/> */}
       <Stack.Screen name="Load" component={Load}/>
