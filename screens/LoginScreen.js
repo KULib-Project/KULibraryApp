@@ -15,7 +15,7 @@ export default function LoginScreen ({navigation}) {
   const [gUser, setGUser] = useState('');
   const [reqError, setReqError] = useState('');
   const [isLoding,setIsLoding]=useState(false);
-
+  const [gAT, setGAT] = useState('');
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: '44328153699-64ovtsdos7gffuc2gnbtmqahrbeav3hj.apps.googleusercontent.com',
     iosClientId: '44328153699-sb96g02ro9a69pe4gbu4i9kag4eq6qoq.apps.googleusercontent.com',
@@ -49,7 +49,7 @@ export default function LoginScreen ({navigation}) {
             
             console.log(gUserReq.data);
             setGUser(gUserReq.data);
-            
+            setGAT(accessToken);
         }
         catch(error){
             console.log('GoogleUserReq error: ', error.response.data);
@@ -57,6 +57,46 @@ export default function LoginScreen ({navigation}) {
         }
         
     }
+    
+ const user=  { 
+    "accessToken": JSON.stringify(gAT),
+    "userInfo": {
+      "id": JSON.stringify(gUser.id),
+      "email": JSON.stringify(gUser.email),
+      "verified_email": JSON.stringify(gUser.verified_email),
+      "name": JSON.stringify(gUser.name),
+      "given_name": JSON.stringify(gUser.given_name),
+      "family_name": JSON.stringify(gUser.family_name),
+      "picture": JSON.stringify(gUser.picture),
+      "locale": JSON.stringify(gUser.locale),
+      "hd": JSON.stringify(gUser.hd)}}
+
+const giveGoogleUser = async () => {
+  let res = await fetch('https://library-2022.herokuapp.com/auth/google/user', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+  body: JSON.stringify(user)
+  
+});
+
+let responed =await res.status;
+if(responed==201){
+  console.log(responed)
+  console.log("기존 회원입니다.")
+  storageData();
+  navigation.replace('Home');
+}else if(responed==200){
+  console.log(responed)
+  console.log("신규 회원입니다.")
+  storageData();
+  navigation.replace('Home');
+}else{
+  console.log(responed)
+}
+}
+
 
 const giveGoogleUser = async (accessToken) => {
         const giveUser = await axios.post('https://library-2022.herokuapp.com/auth/google/user', {
@@ -89,11 +129,11 @@ const giveGoogleUser = async (accessToken) => {
                 navigation.replace('Home');
               }
               
-            } 
-          )
-        .catch(console.error)
-        .finally(()=>setIsLoding(false));
-    }
+//             } 
+//           )
+//         .catch(console.error)
+//         .finally(()=>setIsLoding(false));
+//     }
 
     storageData=async()=>{
       await AsyncStorage.setItem(
