@@ -109,20 +109,6 @@ const SearchScreen = ({ navigation }) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView>
         <View style={styles.wrapper}>
-          {/* <DropDownPicker
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
-                    disableBorderRadius={true}
-                    placeholder="카테고리를 선택해주세요"
-                    style={styles.border}
-                    textStyle={styles.textInput}
-                /> 
-                
-                통합 검색 리스트에 DropDownPicker을 쓸 것 같아 기록용*/}
           <TouchableOpacity
             style={styles.searchList}
             onPress={() => Alert.alert("검색 리스트!")}

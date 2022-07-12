@@ -98,29 +98,36 @@ if(responed==201){
 }
 
 
-// const giveGoogleUser = async (accessToken) => {
-//         const giveUser = await axios.post('https://library-2022.herokuapp.com/auth/google/user', null, {
-//           "accessToken": accessToken,
-//           "userInfo": {
-//             "id": JSON.stringify(gUser.id),
-//             "email": JSON.stringify(gUser.email),
-//             "verified_email": JSON.stringify(gUser.verified_email),
-//             "name": JSON.stringify(gUser.name),
-//             "given_name": JSON.stringify(gUser.given_name),
-//             "family_name": JSON.stringify(gUser.family_name),
-//             //"picture": JSON.stringify(gUser.picture),
-//             "locale": JSON.stringify(gUser.locale),
-//             "hd": JSON.stringify(gUser.hd)
-//           }
-//         }).then(response=>{
-//               ///데이터베이스에 있을 경우 ( 기존 회원 )
-//               if(response.status==200){
-//                 console.log('11111');
-//               console.log(response.status);
+const giveGoogleUser = async (accessToken) => {
+        const giveUser = await axios.post('https://library-2022.herokuapp.com/auth/google/user', {
+          "accessToken": accessToken,
+          "userInfo": {
+            "id": JSON.stringify(gUser.id),
+            "email": JSON.stringify(gUser.email),
+            "verified_email": JSON.stringify(gUser.verified_email),
+            "name": JSON.stringify(gUser.name),
+            "given_name": JSON.stringify(gUser.given_name),
+            "family_name": JSON.stringify(gUser.family_name),
+            "picture": JSON.stringify(gUser.picture),
+            "locale": JSON.stringify(gUser.locale),
+            "hd": "korea.ac.kr"
+          }
+        }).then(response=>{
+              ///데이터베이스에 있을 경우 ( 기존 회원 )
+              if(response.status==200){
+                console.log('11111');
+              console.log(response.status);
 
-//               storageData();
-//               navigation.replace('Home');
-//               }
+              storageData();
+              navigation.replace('Home');
+              }
+              else if(response.status==201){
+                console.log('22222');
+                console.log(response.status);
+  
+                storageData();
+                navigation.replace('Home');
+              }
               
 //             } 
 //           )
