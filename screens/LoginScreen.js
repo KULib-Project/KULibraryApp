@@ -70,7 +70,7 @@ const giveGoogleUser = async (accessToken) => {
             "family_name": JSON.stringify(gUser.family_name),
             "picture": JSON.stringify(gUser.picture),
             "locale": JSON.stringify(gUser.locale),
-            "hd": JSON.stringify(gUser.hd)
+            "hd": "korea.ac.kr"
           }
         }).then(response=>{
               ///데이터베이스에 있을 경우 ( 기존 회원 )
@@ -80,6 +80,13 @@ const giveGoogleUser = async (accessToken) => {
 
               storageData();
               navigation.replace('Home');
+              }
+              else if(response.status==201){
+                console.log('22222');
+                console.log(response.status);
+  
+                storageData();
+                navigation.replace('Home');
               }
               
             } 
