@@ -16,9 +16,6 @@ import {
   ImageHeaderScrollView,
   TriggeringView,
 } from "react-native-image-header-scroll-view";
-//import axios from 'axios';
-//import AsyncStorage from "@react-native-async-storage/async-storage";
-//import async from "async";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 //책 정보를 보여주는 상자
@@ -27,36 +24,18 @@ const DetailScreen = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   // 데이터를 저장하기 위한 변수 선언
   const [isLoding, setIsLoding] = useState(false);
-  // api 호출 확인을 위한 변수 선언 부울 값으로 에러가 발생하는지 아니면 정상 호출 되었는지 확인
-  // useEffect(()=>{
-  //     setIsLoding(true);
-  //     axios.get
-  // api 호출을 통해 json 정보를 받아온다.
-  // mock up site => https://526ec27a-63be-4d0b-b978-b23e62c4a5cb.mock.pstmn.io/bookA
-  /*
-    useEffect(()=>{
-        setIsLoding(true);
-        axios.get('https://526ec27a-63be-4d0b-b978-b23e62c4a5cb.mock.pstmn.io/bookA',{
-            header:{
-                token: '1234',
-            },
-        })
-        .then(function(response){
-            console.log(response);
-            setData(response.data);
-            //console.log(data); //undefined
-            //console.log(data.collectInfo[1]);
-        })
-        .catch(console.error)
-        .finally(()=>setIsLoding(false));
-    },[]);
-    */
+
   useEffect(() => {
     setIsLoding(true);
     setData(route.params);
     console.log(route.params);
     return () => setIsLoding(false); // cleanup function
   }, []);
+
+  // 현재 data.itemData로 불러오면 경우에 따라 return문에서 읽지 못하는 경우가 발생
+  // 일단 route.params로 처리해두긴 했음
+  // may be.. 비동기 처리 문제로 예상 더 알아볼 필요 있음
+
   return (
     <SafeAreaView>
       <View>
@@ -64,14 +43,14 @@ const DetailScreen = ({ navigation, route }) => {
         <View style={styles.columnWrapper}>
           {/* 이미지랑 정보 수평 배열 bookBox */}
           <Image
-            source={{ uri: data.thumbnail }}
+            source={{ uri: route.params.itemData.thumbnail }}
             style={{ width: 150, height: 200 }}
           />
           <View style={styles.rowWrapper}>
             {/* 정보 수직 배열 infoBox */}
             <Text style={styles.cardInfo}>
-              {"제목:" + `${data.title}`}
-              {"\n" + "저자: " + `${data.author}`}
+              {"제목: " + `${route.params.itemData.title}`}
+              {"\n" + "저자:  " + `${route.params.itemData.author}`}
             </Text>
           </View>
         </View>
@@ -81,18 +60,26 @@ const DetailScreen = ({ navigation, route }) => {
           <Text>대출 정보</Text>
           <View style={styles.columnWrapper}>
             {/* 예약 정보 */}
-            <Text
-              style={styles.cardInfo}
-            >{`${data?.collectInfo?.["callNumber"]}`}</Text>
-            <Text
-              style={[{ color: "blue" }, styles.cardInfo]}
-            >{`${data?.collectInfo?.["state"]}`}</Text>
+            {console.log("123123" + route.params?.itemData.collectInfo)}
+            {route.params?.itemData.collectInfo.map((info) => {
+              console.log(info.state);
+
+              let a = (
+                <>
+                  <Text>{`${info.callNumber}`}</Text>
+                  <Text> {`${info.state}`}</Text>
+                </>
+              );
+
+              return a;
+            })}
           </View>
         </View>
       </View>
     </SafeAreaView>
   );
 };
+
 export default DetailScreen;
 const styles = StyleSheet.create({
   rowWrapper: {
