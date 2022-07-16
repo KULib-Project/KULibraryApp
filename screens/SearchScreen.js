@@ -24,7 +24,8 @@ import { AntDesign } from "@expo/vector-icons";
 
 //테스트 데이터 나중에는 url-> db에서 가져와야 함
 //import Information from '../../data/Info';
-
+//기존 mock 서버링크 -> https://526ec27a-63be-4d0b-b978-b23e62c4a5cb.mock.pstmn.io
+//테스트 mock 서버링크 -> https://2a03e721-edea-412e-aed0-942aa0b283c9.mock.pstmn.io
 const SearchScreen = ({ navigation }) => {
   //데이터 가져오기
   const [data, setData] = useState([]);
@@ -39,7 +40,7 @@ const SearchScreen = ({ navigation }) => {
         },
       })
       .then(function (response) {
-        //console.log(response);
+        console.log(response);
         setData(response.data);
         //console.log(data);
       })
@@ -84,8 +85,9 @@ const SearchScreen = ({ navigation }) => {
       <TouchableOpacity
         ///onPress={() => navigation.replace("Detail", { itemData: item })}
         onPress={() => {
-          console.log(item);
+          //console.log(item);
           navigation.navigate("Detail", { itemData: item });
+          //navigation.navigate("Detail");
         }}
       >
         <View style={styles.rowWrapper}>
