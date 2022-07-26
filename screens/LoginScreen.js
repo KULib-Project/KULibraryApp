@@ -58,6 +58,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   //500아 너는 언제쯤 잡혀줄거니..?
+  //헤더의 content-type 활용해서 리팩토링 시도해볼 필요 있음
   const giveGoogleUser = async (accessToken) => {
     const giveUser = await axios
       .post("https://library-2022.herokuapp.com/auth/google/user", {
