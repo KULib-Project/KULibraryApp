@@ -11,6 +11,7 @@ import DetailScreen from "./screens/DetailScreen";
 import LoginScreen from "./screens/LoginScreen";
 import Auth from "./functions/auth"
 import Post from "./screens/PostScreen";
+import DashScreen from "./screens/DashScreen";
 const Stack = createNativeStackNavigator();
 
 
@@ -26,6 +27,7 @@ function App(){
       <Stack.Screen name="Login" component={LoginScreen}/>
       <Stack.Screen name="Auth" component={Auth}/>
       <Stack.Screen name="Post" component={Post}/>
+      <Stack.Screen name="Dash" component={DashScreen}/>
     </Stack.Navigator>
   </NavigationContainer>
 }
