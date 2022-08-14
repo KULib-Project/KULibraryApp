@@ -1,52 +1,85 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
+import {
+  useQuery,
+  QueryClient,
+  QueryClientProvider,
+  useQueryClient
+} from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+const queryClient = new QueryClient();
 
 export default function ReadingRoom({ navigation }) {
+  // dropdown 메뉴 라벨 목록
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
 
-  // dropdown 메뉴 라벨 목록
+  // 도서관 선택
   const [items, setItems] = useState([
     { label: '도서관 선택 | 서울캠퍼스', value: 0 },
     { label: '도서관 선택 | 세종캠퍼스', value: 1 }
   ]);
-  const [isLoding, setIsLoding] = useState(false);
+
+  // 임시로 mock 서버와 param 방식으로 연결
+  // 서버에서 선택된 도서관의 열람실 정보를 불러옴
+  const fetchReadingRoom = (value) => {
+    return axios
+      .get(
+        `https://f9071a3a-7d0c-4ec1-adf2-c3cec616b3b9.mock.pstmn.io/readingroom?library_id=1`
+      )
+      .then((res) => {
+        // Set Fetch Data
+        console.log(res.data);
+        setReading(res.data);
+        return res.data;
+      });
+  };
+
+  // API 쿼리 값 저장
   const [reading, setReading] = useState([]);
 
-  // dropdown 메뉴에서 도서관을 선택하면 서버에서 해당 도서관의 열람실 목록을 get 해오는 코드
-  useEffect(() => {
-    setIsLoding(true);
-    // 도서관이 선택되었을 때만 get
-    if (value !== null) {
-      let obj = {
-        "library_id": value
-      }
+  // 열람실 목록 출력
+  const PrintReadingRoom = () => {
+    // useQuery를 활용한 Data fetch
+    const query = useQuery(['readingroom'], fetchReadingRoom);
 
-      console.log(JSON.stringify(obj))
-      axios
-        .get('https://library-2022.herokuapp.com/readingroom', JSON.stringify(obj), {
-          headers: {
-            "Content-Type": `application/json`
-
-          },
-        })
-        .then(function (response) {
-          console.log(response);
-          setReading(response.data);
-          console.log(reading);
-        })
-        .catch(console.error)
-        .finally(() => setIsLoding(false));
+    // Print Error
+    if (query.isError) {
+      console.log(query.error.message);
     }
-    return () => setIsLoding(false); // cleanup function
-  }, [value]);
+
+    // Print Loading Screen
+    if (query.isLoading) {
+      return (
+        <View style={styles.container}>
+          <Text>Loading...</Text>
+        </View>
+      );
+    } else {
+      // Complete loading
+      // 일반적인 상황에서는 출력이 잘 되나, 다른 스크린으로 이동했다가 재진입하면 undefined 에러가 발생, why?
+      return reading.readingRoom.map((room) => (
+        <TouchableOpacity key={room.id} style={styles.roomBox}>
+          <Text style={styles.roomTitle}>{`${room.readingRoom_name}`}</Text>
+        </TouchableOpacity>
+      ));
+    }
+  };
 
   return (
-    <View style={styles.container}>
+    <View>
       <DropDownPicker
+        style={styles.dropContainer}
         open={open}
         items={items}
         value={value}
@@ -54,18 +87,40 @@ export default function ReadingRoom({ navigation }) {
         setItems={setItems}
         setValue={setValue}
         placeholder="도서관 선택 | "
-        //{...console.log(value)}
         containerStyle={{ height: 40 }}
       />
+      <ScrollView style={styles.roomContainer}>
+        <QueryClientProvider client={queryClient}>
+          <PrintReadingRoom />
+        </QueryClientProvider>
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  dropContainer: {
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    padding: 10
+    padding: 20
+  },
+  roomContainer: {
+    height: '80%',
+    padding: 10,
+    marginTop: 5
+  },
+  roomBox: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#ffffff',
+    borderColor: 'black',
+    borderWidth: 0.7,
+    padding: 5,
+    alignItems: 'stretch'
+  },
+
+  roomTitle: {
+    fontSize: 15,
+    fontWeight: 'bold'
   }
 });
