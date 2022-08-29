@@ -11,6 +11,8 @@ function HomeScreen({ navigation }) {
       <Button title="Auth" onPress={() => navigation.navigate("Auth")} />
       <Button title="Post" onPress={() => navigation.navigate("Post")} />
       <Button title="Show Post" onPress={() => navigation.navigate("Show")} />
+      <Button title="API Test Middle" onPress={() => navigation.navigate("Middle")} />
+
     </View>
   );
 }
