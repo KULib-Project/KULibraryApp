@@ -9,10 +9,13 @@ import HomeScreen from "./screens/HomeScreen";
 import SearchScreen from "./screens/SearchScreen";
 import DetailScreen from "./screens/DetailScreen";
 import LoginScreen from "./screens/LoginScreen";
+import PostDetail from "./screens/PostDetail";
 import Auth from "./functions/auth"
 import Post from "./screens/PostScreen";
 import Show from "./screens/PostShowScreen";
 import Load from "./screens/LoadingScreen";
+import Middle from "./screens/ApiTestMiddle";
+
 const Stack = createNativeStackNavigator();
 
 
@@ -30,6 +33,8 @@ function App(){
       <Stack.Screen name="Auth" component={Auth}/>
       <Stack.Screen name="Post" component={Post}/>
       <Stack.Screen name="Show" component={Show}/>
+      <Stack.Screen name="PostDetail" component={PostDetail}/>
+      <Stack.Screen name="Middle" component={Middle}/>
     </Stack.Navigator>
   </NavigationContainer>
 }
