@@ -30,6 +30,9 @@ export default function ReadingRoom({ navigation }) {
     { label: '도서관 선택 | 세종캠퍼스', value: 1 }
   ]);
 
+  // API 쿼리 값 저장
+  const [reading, setReading] = useState([]);
+
   // 임시로 mock 서버와 param 방식으로 연결
   // 서버에서 선택된 도서관의 열람실 정보를 불러옴
   const fetchReadingRoom = (value) => {
@@ -44,9 +47,6 @@ export default function ReadingRoom({ navigation }) {
         return res.data;
       });
   };
-
-  // API 쿼리 값 저장
-  const [reading, setReading] = useState([]);
 
   // 열람실 목록 출력
   const PrintReadingRoom = () => {
@@ -69,9 +69,24 @@ export default function ReadingRoom({ navigation }) {
       // Complete loading
       // 일반적인 상황에서는 출력이 잘 되나, 다른 스크린으로 이동했다가 재진입하면 undefined 에러가 발생, why?
       return reading.readingRoom.map((room) => (
-        <TouchableOpacity key={room.id} style={styles.roomBox}>
-          <Text style={styles.roomTitle}>{`${room.readingRoom_name}`}</Text>
+        <TouchableOpacity key={room.id} style={styles.group}>
+          <View style={styles.roomBox}>
+            <Text style={styles.roomRemain}>
+              Total: {`${room.totalNum}`} / Available:
+              {`${room.availableNum}`}
+            </Text>
+            <Text style={styles.roomName}>{`${room.readingRoom_name}`}</Text>
+            <View style={styles.label}>
+              <View style={styles.labelContainer}>
+                <Text style={styles.roomState}>배정가능</Text>
+              </View>
+            </View>
+            <Text style={styles.time}>00:00 ~ 24:00</Text>
+          </View>
         </TouchableOpacity>
+        //<TouchableOpacity key={room.id} style={styles.roomBox}>
+        // <Text style={styles.roomTitle}>{`${room.readingRoom_name}`}</Text>
+        //</TouchableOpacity>
       ));
     }
   };
@@ -109,7 +124,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 5
   },
-  roomBox: {
+  roomBox2: {
     width: '100%',
     height: 50,
     backgroundColor: '#ffffff',
@@ -118,9 +133,63 @@ const styles = StyleSheet.create({
     padding: 5,
     alignItems: 'stretch'
   },
-
   roomTitle: {
     fontSize: 15,
     fontWeight: 'bold'
+  },
+  group: {
+    width: '100%',
+    height: '30%'
+  },
+  roomBox: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#ffffff'
+  },
+  roomRemain: {
+    margin: 1.19,
+    width: 61,
+    height: 7,
+    color: 'rgba(0, 0, 0, 0.78)',
+    fontSize: 13,
+    fontWeight: '300',
+    lineHeight: 0.59
+  },
+  roomName: {
+    margin: 15,
+    width: 30,
+    height: 14,
+    color: '#000000',
+    fontSize: 15,
+    lineHeight: 14
+  },
+  label: {
+    margin: 36,
+    width: 16,
+    height: 5
+  },
+  labelContainer: {
+    width: 16,
+    height: 5,
+    backgroundColor: '#00bfb4',
+    borderRadius: 0.06
+  },
+  roomState: {
+    margin: 0.13,
+    width: 28,
+    height: 7,
+    color: '#ffffff',
+    fontSize: 15,
+    lineHeight: 0.44,
+    textAlign: 'center'
+  },
+  time: {
+    margin: 19.5,
+    width: 25,
+    height: 8,
+    color: '#000000',
+    fontSize: 15,
+    lineHeight: 0.44,
+    textAlign: 'center'
   }
 });
