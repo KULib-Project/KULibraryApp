@@ -47,7 +47,7 @@ export default function LoginScreen({ navigation }) {
           },
         }
       );
-
+      this.forceUpdate();
       console.log(gUserReq.data);
       setGUser(gUserReq.data);
       setGAT(accessToken);
