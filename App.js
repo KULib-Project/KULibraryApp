@@ -15,6 +15,7 @@ import Show from './screens/PostShowScreen';
 import Load from './screens/LoadingScreen';
 import Forward from './screens/APITestForward';
 import Middle from './screens/APITestMiddle';
+import End from './screens/APITestEnd';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +37,7 @@ function App() {
         <Stack.Screen name="PostDetail" component={PostDetail} />
         <Stack.Screen name="Forward" component={Forward} />
         <Stack.Screen name="Middle" component={Middle} />
+        <Stack.Screen name="End" component={End} />
       </Stack.Navigator>
     </NavigationContainer>
   );
