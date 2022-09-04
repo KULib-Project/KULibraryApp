@@ -122,10 +122,9 @@ const Middle = ({ navigation }) => {
       });
   };
 
-  // 404 error
   const loanState = () => {
     axios
-      .get('https://library-2022.herokuapp.com/book/loan/state?user_id=1')
+      .get('https://library-2022.herokuapp.com/book/loan/status?user_id=1')
       .then((res) => {
         console.log('==============================================');
         console.log(res.data);
@@ -136,8 +135,9 @@ const Middle = ({ navigation }) => {
       });
   };
 
-  // 500 error
-  const reserveInform = { seq: 1, user_id: 1 };
+  // seq : 1 => 지금 서버에 해당하는 user_id가 null로 설정되어 있어서 500 에러가 발생, seq 값을 2로 변경하면 일단 에러x
+  // 이 부분은 추후 백엔드에서 확인 예정
+  const reserveInform = { "seq": 2, "user_id": 1 };
   const reserve = () => {
     axios
       .put('https://library-2022.herokuapp.com/book/reserve', reserveInform)
@@ -151,13 +151,13 @@ const Middle = ({ navigation }) => {
       });
   };
 
+  // 백엔드 측에서 메일 주소를 받을 때 메일주소 문구 양측에 큰 따옴표가 포함된 채로 전달이 되어야 500 error가 발생하지 않음 //
   const noticeData = {
-    email: 'zidh12444432@korea.ac.kr',
-    content: '안녕하321요312321',
-    title: '테스트 게시물321312313'
+    "email": "\"qqww212@korea.ac.kr\"",
+    "content": '안녕하321요312321',
+    "title": '테스트 게시물321312313'
   };
 
-  // 500 error
   const saveNotice = () => {
     axios
       .post('https://library-2022.herokuapp.com/notice/save', noticeData)
