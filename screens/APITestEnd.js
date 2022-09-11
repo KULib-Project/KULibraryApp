@@ -263,6 +263,75 @@ const End = ({ navigation }) => {
       });
   };
 
+  const getAllUser = () => {
+    axios
+      .get("https://libforcommunity.herokuapp.com/user")
+      .then((res) => {
+        console.log("==============================================");
+        console.log(res.data);
+        console.log("++++++++++++++++++++++++++++++++++++++++++++++");
+      })
+      .catch((error) => {
+        console.log("error: " + error);
+      });
+  };
+
+  userInfo1 = {
+      "id": "631d5da23a6d883a98c4dff0",
+      "email": "tesr@gmail.com",
+      "name": "string",
+      "nick": "string",
+      "depart": "string"
+  }
+
+  const userCheck = () => {
+    axios
+      .post('https://library-2022.herokuapp.com/login/usercheck', userInfo1)
+      .then((res) => {
+        console.log('==============================================');
+        console.log(res.data);
+        console.log('++++++++++++++++++++++++++++++++++++++++++++++');
+      })
+      .catch((error) => {
+        console.log('error: ' + error);
+      });
+  };
+
+  userInfo2 = {
+    "id": "631dbb4138ebd77a361b5e26",
+    "email": "dd@gmail.com",
+    "name": "dkdlkls",
+    "nick": "stdd",
+    "depart": "computer"
+  }
+  const saveUser = () => {
+    axios
+      .post('https://library-2022.herokuapp.com/login/saveuser', userInfo2)
+      .then((res) => {
+        console.log('==============================================');
+        console.log(res.data);
+        console.log('++++++++++++++++++++++++++++++++++++++++++++++');
+      })
+      .catch((error) => {
+        console.log('error: ' + error);
+      });
+  };
+
+  const getUserinfo = () => {
+    axios
+      .get('https://library-2022.herokuapp.com/book/loan/status?id=631d5da23a6d883a98c4dff0')
+      .then((res) => {
+        console.log('==============================================');
+        console.log(res.data);
+        console.log('++++++++++++++++++++++++++++++++++++++++++++++');
+      })
+      .catch((error) => {
+        console.log('error: ' + error);
+      });
+  };
+
+
+
   return (
     <View style={styles.container}>
       <Button
@@ -339,6 +408,26 @@ const End = ({ navigation }) => {
         style={styles.apiButton}
         title="게시판 글 조회"
         onPress={() => communityDetail()}
+      />
+      <Button
+        style={styles.apiButton}
+        title="유저 데이터 조회"
+        onPress={() => getAllUser()}
+      />
+      <Button
+        style={styles.apiButton}
+        title="유저 체크"
+        onPress={() => userCheck()}
+      />
+      <Button
+        style={styles.apiButton}
+        title="유저 정보 저장"
+        onPress={() => saveUser()}
+      />
+      <Button
+        style={styles.apiButton}
+        title="특정 유저 정보 조회"
+        onPress={() => getUserinfo()}
       />
     </View>
   );
