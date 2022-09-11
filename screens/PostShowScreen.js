@@ -24,7 +24,7 @@ const PostList =({navigation})=>{
 
     useEffect(()=>{
         setIsLoding(true);
-        axios.get('https://library-2022.herokuapp.com/notice')
+        axios.get('https://library-2022.herokuapp.com/community')
         .then(function(response){
             console.log(response);
             setData(response.data);
@@ -41,8 +41,7 @@ const PostList =({navigation})=>{
           <TouchableOpacity
             ///onPress={() => navigation.replace("Detail", { itemData: item })}
             onPress={() => {
-              console.log(item);
-              navigation.navigate("Detail", { itemData: item });
+              navigation.navigate("PostDetail", { itemData: item});
             }}
           >
             <View style={styles.rowWrapper}>

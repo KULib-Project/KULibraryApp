@@ -1,21 +1,23 @@
 //네비게이션 라이브러리 import
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
 
 //스크린 페이지 import
-import HomeScreen from "./screens/HomeScreen";
-import SearchScreen from "./screens/SearchScreen";
-import DetailScreen from "./screens/DetailScreen";
-import LoginScreen from "./screens/LoginScreen";
-import Auth from "./functions/auth";
-import Post from "./screens/PostScreen";
-import Show from "./screens/PostShowScreen";
-import Load from "./screens/LoadingScreen";
+import HomeScreen from './screens/HomeScreen';
+import SearchScreen from './screens/SearchScreen';
+import DetailScreen from './screens/DetailScreen';
+import LoginScreen from './screens/LoginScreen';
+import PostDetail from './screens/PostDetail';
+import Auth from './functions/auth';
+import Post from './screens/PostScreen';
+import Show from './screens/PostShowScreen';
+import Load from './screens/LoadingScreen';
 import Forward from './screens/APITestForward';
 import Middle from './screens/APITestMiddle';
 import End from './screens/APITestEnd';
 import Reading from "./screens/ReadingRoom";
+
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -33,6 +35,10 @@ function App() {
         <Stack.Screen name="Auth" component={Auth} />
         <Stack.Screen name="Post" component={Post} />
         <Stack.Screen name="Show" component={Show} />
+        <Stack.Screen name="PostDetail" component={PostDetail} />
+        <Stack.Screen name="Forward" component={Forward} />
+        <Stack.Screen name="Middle" component={Middle} />
+        <Stack.Screen name="End" component={End} />
         <Stack.Screen name="Reading" component={Reading} />
       </Stack.Navigator>
     </NavigationContainer>

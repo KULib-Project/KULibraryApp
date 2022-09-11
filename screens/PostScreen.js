@@ -50,7 +50,7 @@ const Post = ({navigation}) => {
       const postUser = () => {
         //글 post해서 db에 데이터 넘겨주는 파트
         //현재 문제점, 데이터를 입력해도 null만 뜬다. 게시글 등록 완료라고는 뜨지만 등록이 안됨.
-        axios.post('https://library-2022.herokuapp.com/notice/save', {
+        axios.post('https://library-2022.herokuapp.com/community/save', {
           "email" : `"${email}"`,
           "content" : text,
           "title" : title
