@@ -263,6 +263,7 @@ const End = ({ navigation }) => {
       });
   };
 
+  //
   const getAllUser = () => {
     axios
       .get("https://libforcommunity.herokuapp.com/user")
@@ -286,7 +287,7 @@ const End = ({ navigation }) => {
 
   const userCheck = () => {
     axios
-      .post('https://library-2022.herokuapp.com/login/usercheck', userInfo1)
+      .post('https://libforcommunity.herokuapp.com/login/usercheck', userInfo1)
       .then((res) => {
         console.log('==============================================');
         console.log(res.data);
@@ -306,7 +307,7 @@ const End = ({ navigation }) => {
   }
   const saveUser = () => {
     axios
-      .post('https://library-2022.herokuapp.com/login/saveuser', userInfo2)
+      .post('https://libforcommunity.herokuapp.com/login/saveuser', userInfo2)
       .then((res) => {
         console.log('==============================================');
         console.log(res.data);
@@ -319,11 +320,11 @@ const End = ({ navigation }) => {
 
   const getUserinfo = () => {
     axios
-      .get('https://library-2022.herokuapp.com/book/loan/status?id=631d5da23a6d883a98c4dff0')
+      .get('https://libforcommunity.herokuapp.com/user?id=631d5da23a6d883a98c4dff0')
       .then((res) => {
         console.log('==============================================');
         console.log(res.data);
-        console.log('++++++++++++++++++++++++++++++++++++++++++++++');
+        console.log('++++++++++++++++++++++++++++++++++++++++++++++');r
       })
       .catch((error) => {
         console.log('error: ' + error);
