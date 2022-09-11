@@ -35,6 +35,7 @@ export default function ReadingRoom({ navigation }) {
 
   // 임시로 mock 서버와 param 방식으로 연결
   // 서버에서 선택된 도서관의 열람실 정보를 불러옴
+  // TODO: 드롭다운 메뉴에서 선택한 도서관 번호로 쿼리를 전송할 수 있도록 변수화
   const fetchReadingRoom = (value) => {
     return axios
       .get(
@@ -67,7 +68,7 @@ export default function ReadingRoom({ navigation }) {
       );
     } else {
       // Complete loading
-      // 일반적인 상황에서는 출력이 잘 되나, 다른 스크린으로 이동했다가 재진입하면 undefined 에러가 발생, why?
+      // TODO : 일반적인 상황에서는 출력이 잘 되나, 다른 스크린으로 이동했다가 재진입하면 undefined 에러가 발생하는 부분 원인 파악 필요
       return reading.readingRoom.map((room) => (
         <TouchableOpacity key={room.id} style={styles.group}>
           <View style={styles.roomBox}>
