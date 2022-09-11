@@ -12,6 +12,10 @@ function HomeScreen({ navigation }) {
       <Button title="Post" onPress={() => navigation.navigate("Post")} />
       <Button title="Show Post" onPress={() => navigation.navigate("Show")} />
       <Button
+        title="Reading Room"
+        onPress={() => navigation.navigate('Reading')}
+      />
+      <Button
         title="API Test Forward"
         onPress={() => navigation.navigate("Forward")}
       />

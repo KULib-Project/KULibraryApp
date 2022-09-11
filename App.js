@@ -16,6 +16,7 @@ import Load from './screens/LoadingScreen';
 import Forward from './screens/APITestForward';
 import Middle from './screens/APITestMiddle';
 import End from './screens/APITestEnd';
+import Reading from "./screens/ReadingRoom";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ function App() {
         <Stack.Screen name="Forward" component={Forward} />
         <Stack.Screen name="Middle" component={Middle} />
         <Stack.Screen name="End" component={End} />
+        <Stack.Screen name="Reading" component={Reading} />
       </Stack.Navigator>
     </NavigationContainer>
   );
