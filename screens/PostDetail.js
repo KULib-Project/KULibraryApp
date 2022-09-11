@@ -27,7 +27,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient();
 
-export default function PostDetail({ navigation,route }){
+export default function PostDetail({ navigation, route }){
 	// API 쿼리 값 저장
 	const [comments, setComments] = useState([]);
 	/** 댓글 입력 값 저장 */
@@ -36,7 +36,7 @@ export default function PostDetail({ navigation,route }){
 
 	const getDetail = () => {
     
-		const id=route.params.itemData.id;
+		//const id=route.params.itemData.id;
 		return axios.get("https://ea6717d8-601b-42a2-b0e6-1c5f0ea9f1a1.mock.pstmn.io/id=1")
 			.then((response) => {
 				setComments(response.data);
