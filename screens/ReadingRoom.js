@@ -71,22 +71,22 @@ export default function ReadingRoom({ navigation }) {
       return reading.readingRoom.map((room) => (
         <TouchableOpacity key={room.id} style={styles.group}>
           <View style={styles.roomBox}>
-            <Text style={styles.roomRemain}>
-              Total: {`${room.totalNum}`} / Available:
-              {`${room.availableNum}`}
-            </Text>
-            <Text style={styles.roomName}>{`${room.readingRoom_name}`}</Text>
-            <View style={styles.label}>
-              <View style={styles.labelContainer}>
-                <Text style={styles.roomState}>배정가능</Text>
+            <View style={styles.titleContainer}>
+              <Text style={styles.roomName}>{`${room.readingRoom_name}`}</Text>
+
+              <Text style={styles.time}>00:00 ~ 24:00</Text>
+            </View>
+
+           <View style={styles.stateContainer}>
+              <Text style={styles.roomRemain}>
+                Total: {`${room.totalNum}`} / Available: {`${room.availableNum}`}
+              </Text>
+              <View style={styles.label}>
+                  <Text style={styles.roomState}>배정가능</Text>
               </View>
             </View>
-            <Text style={styles.time}>00:00 ~ 24:00</Text>
           </View>
         </TouchableOpacity>
-        //<TouchableOpacity key={room.id} style={styles.roomBox}>
-        // <Text style={styles.roomTitle}>{`${room.readingRoom_name}`}</Text>
-        //</TouchableOpacity>
       ));
     }
   };
@@ -117,79 +117,55 @@ const styles = StyleSheet.create({
   dropContainer: {
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    padding: 20
+    padding: 10
   },
   roomContainer: {
     height: '80%',
     padding: 10,
     marginTop: 5
   },
-  roomBox2: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#ffffff',
-    borderColor: 'black',
-    borderWidth: 0.7,
-    padding: 5,
-    alignItems: 'stretch'
-  },
-  roomTitle: {
-    fontSize: 15,
-    fontWeight: 'bold'
-  },
   group: {
     width: '100%',
-    height: '30%'
+    height: '40%',
+    margin : 3
   },
   roomBox: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
-  roomRemain: {
-    margin: 1.19,
-    width: 61,
-    height: 7,
-    color: 'rgba(0, 0, 0, 0.78)',
-    fontSize: 13,
-    fontWeight: '300',
-    lineHeight: 0.59
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   roomName: {
-    margin: 15,
-    width: 30,
-    height: 14,
-    color: '#000000',
     fontSize: 15,
-    lineHeight: 14
+    fontWeight: 'bold',
+    margin: 5,
+  },
+  stateContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   label: {
-    margin: 36,
-    width: 16,
-    height: 5
-  },
-  labelContainer: {
-    width: 16,
-    height: 5,
-    backgroundColor: '#00bfb4',
-    borderRadius: 0.06
+    width: 45,
+    height: 23,
+    backgroundColor: '#36BC9B',
+    margin: 5,
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   roomState: {
-    margin: 0.13,
-    width: 28,
-    height: 7,
-    color: '#ffffff',
-    fontSize: 15,
-    lineHeight: 0.44,
-    textAlign: 'center'
+    color: 'white'
   },
   time: {
-    margin: 19.5,
-    width: 25,
-    height: 8,
-    color: '#000000',
-    fontSize: 15,
-    lineHeight: 0.44,
-    textAlign: 'center'
-  }
+    margin: 5,
+    justifyContent: 'flex-end'
+  },
+  roomRemain: {
+    margin: 5
+  },
+  
 });
