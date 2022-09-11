@@ -12,6 +12,9 @@ import Auth from "./functions/auth";
 import Post from "./screens/PostScreen";
 import Show from "./screens/PostShowScreen";
 import Load from "./screens/LoadingScreen";
+import Forward from './screens/APITestForward';
+import Middle from './screens/APITestMiddle';
+import End from './screens/APITestEnd';
 import Reading from "./screens/ReadingRoom";
 const Stack = createNativeStackNavigator();
 

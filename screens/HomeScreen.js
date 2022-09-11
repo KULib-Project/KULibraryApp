@@ -15,6 +15,18 @@ function HomeScreen({ navigation }) {
         title="Reading Room"
         onPress={() => navigation.navigate('Reading')}
       />
+       <Button
+        title="API Test Forward"
+        onPress={() => navigation.navigate("Forward")}
+      />
+      <Button
+        title="API Test Middle"
+        onPress={() => navigation.navigate("Middle")}
+      />
+      <Button
+        title="API Test End"
+        onPress={() => navigation.navigate("End")}
+      />
     </View>
   );
 }
