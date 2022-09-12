@@ -7,7 +7,7 @@ import React from 'react';
 import HomeScreen from './screens/HomeScreen';
 import SearchScreen from './screens/SearchScreen';
 import DetailScreen from './screens/DetailScreen';
-import LoginScreen from './screens/LoginScreen';
+import LoginScreen from './screens/LoginScreen_N';
 import PostDetail from './screens/PostDetail';
 import Auth from './functions/auth';
 import Post from './screens/PostScreen';
