@@ -1,4 +1,7 @@
-import React, { Component, useEffect, useRef, useState } from "react";
+//****************
+// 리팩토링 필요함
+//****************
+import React, { useEffect, useState } from "react";
 import {
   View,
   Button,
@@ -12,108 +15,155 @@ import axios from "axios";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const DashScreen = ({ navigation }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [notice, setNotice] = useState([]);
+  const [libs, setLibs] = useState([]);
+  const [facility, setFacility] = useState([]);
+  const [bookLoan, setBookLoan] = useState([]);
 
-  /* 
-  useState 개수 줄이는 법. 사용할지 말지 고민하는 중
-  https://velog.io/@unknown9732/useState-%EC%97%AC%EB%9F%AC%EA%B0%9C%EB%A5%BC-%EC%93%B0%EB%8A%94-%EA%B2%BD%EC%9A%B0
-  */
-  
-  const [data,setData]=useState([]);
-  const [facility,setFacility]=useState([]);
-  const [bookLoan,setBookLoan]=useState([]);
-  const [isLoding,setIsLoding]=useState(false);
-  useEffect(()=>{
-      setIsLoding(true);
+  var user_id; //다른 곳에서 받아와야 함!
+  var notice_titles;
+  var lib_names;
+  var facil_lists;
+  var data_lists;
 
-/*
-    postman code snippet으로 만든 코드
-    이거 쉽게 사용할 수 있도록 연구해보는 것도 좋을 거 같음
+  useEffect(() => {
+    setIsLoading(true);
 
-      var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-      };
-      
-      fetch("https://library-2022.herokuapp.com//notice/detail?id=2", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-*/
+    //공지사항 제목 불러오기
+    var id_num = 30; //등록돼있는 공지글의 개수
+    // 추후 유동적으로 변할 수 있도록 수정해줘야 함
+    for (var i = 0; i < id_num; i++) {
+      axios
+        .get(`https://library-2022.herokuapp.com/notice/detail?id=${i}`)
+        .then(function (response) {
+          if (response.data.noticeDetail.title === undefined) {
+          } else {
+            //setNotice(response.notice);
+            notice_titles.append(response.data.noticeDetail.title);
+          }
+        })
+        .catch(console.error)
+        .finally(() => setIsLoading(false));
+    }
 
-      axios.get('https://3135cd4c-6f2c-47e4-9d07-cb34e2c8e785.mock.pstmn.io/notice/detail',{
-          header:{
-              id: '2',
-          },
-      })
-      .then(function(response){
-          console.log(response);
-          setData(response.data);
-          JSON.stringify(data)
-      })
-      .catch(console.error)
-      .finally(()=>setIsLoding(false));
-
-      //시설 예약 내역
-      axios.get('https://3135cd4c-6f2c-47e4-9d07-cb34e2c8e785.mock.pstmn.io/facility/reserve/state',{
-          header:{
-            user_id: '1',
-          },
-      })
-      .then(function(response){
-          console.log(response);
-          setFacility(response.facility);
-          JSON.stringify(facility)
+    //도서관 리스트 조회
+    axios
+      .get("https://library-2022.herokuapp.com/book/category")
+      .then(function (response) {
+        setLibs(response.data);
+        //도서관 이름들 추출해서 배열로 만들기
+        lib_names = JSON.parse(JSON.stringify(response.data)).categoryList;
+        console.log(lib_names);
       })
       .catch(console.error)
-      .finally(()=>setIsLoding(false));
+      .finally(() => setIsLoading(false));
 
-      //자료 대출 내역
-      axios.get('https://3135cd4c-6f2c-47e4-9d07-cb34e2c8e785.mock.pstmn.io/book/loan/state',{
-    })
-    .then(function(response){
-        console.log(response);
+    //시설 예약 내역 (시설 예약 조회)
+    axios
+      .get(
+        `https://library-2022.herokuapp.com/facility/reserve/state?user_id=${user_id}`
+      )
+      .then(function (response) {
+        setFacility(response.facility);
+        facil_lists = JSON.parse(JSON.stringify(response.data));
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+
+    //자료 대출 내역 (대출현황 조회)
+    axios
+      .get(
+        `https://library-2022.herokuapp.com/book/loan/state?user_id=${user_id}`
+      )
+      .then(function (response) {
         setBookLoan(response.bookLoan);
-        JSON.stringify(bookLoan)
-    })
-    .catch(console.error)
-    .finally(()=>setIsLoding(false));
+        data_lists = JSON.parse(JSON.stringify(response.data));
+      })
+      .catch(console.error)
+      .finally(() => setIsLoading(false));
+  }, []);
 
-  },[]);
-
+  //오늘 날짜 구하기
+  const today = new Date();
+  var year = today.getFullYear();
+  const month = ("0" + (today.getMonth() + 1)).slice(-2);
+  var day = ("0" + today.getDate()).slice(-2);
+  function getDay() {
+    var week = new Array(
+      "SUN (일)",
+      "MON (월)",
+      "TUE (화)",
+      "WED (수)",
+      "THU (목)",
+      "FRI (금)",
+      "SAT (토)"
+    );
+    var today = new Date().getDay();
+    var todayLabel = week[today];
+    return todayLabel;
+  }
 
   return (
     <SafeAreaView>
-
       <View>
-          <Text>{"공지 1" + `${data.noticeDetail}`}</Text>
-          <Text>{"공지 2" + `${data.noticeDetail}`}</Text>
+        <Text>{"공지 1 "}</Text>
+        {/* if(notice_titles[0]){<Text>{notice_title[0]}</Text>} */}
+        <Text>{"공지 2 "}</Text>
+        {/* if(notice_titles[1]){<Text>{notice_title[1]}</Text>} */}
       </View>
 
       <View>
-        <Text>개관시간 오늘의 날짜  요일(요일)</Text>
+        <Text> </Text>
       </View>
 
       <View>
-        <Text>도서관 이름, 오픈 시간 </Text>
+        <View>
+          <Text>
+            {"개관시간 " +
+              `${year}` +
+              " /" +
+              `${month}` +
+              " /" +
+              `${day}` +
+              " " +
+              `${getDay()}`}
+          </Text>
+        </View>
+        <View>
+          {/* <Text>{`${lib_names[1]}`}</Text>
+          <Text>09:00 - 19:00</Text>
+          <Text>{`${lib_names[2]}`}</Text>
+          <Text>09:00 - 19:00</Text> */}
+          {/* <Text>{`${lib_names.categoryList[3]}`}</Text>
+          <Text>09:00 - 19:00</Text>
+          <Text>{`${lib_names.categoryList[4]}`}</Text>
+          <Text>09:00 - 19:00</Text>
+          <Text>{`${lib_names.categoryList[5]}`}</Text>
+          <Text>09:00 - 19:00</Text>
+          <Text>{`${lib_names.categoryList[6]}`}</Text>
+          <Text>09:00 - 19:00</Text> */}
+        </View>
       </View>
 
       <View>
-        { /* 일단은 home으로 이동하게 해둠. 추후 해당 페이지에 맞게 바꿔줘야 함. 그리고 버튼은 추후TouchableWithoutFeedback로 수정할 예정 */}
-        <Button title="열람실 좌석배정" onPress={() => navigation.navigate("Home")} />
-        <Button title="스터디룸 시설물 예약" onPress={() => navigation.navigate("Home")} />
-        <Button title="자료 검색" onPress={() => navigation.navigate("Home")} />
-        <Button title="자유게시판" onPress={() => navigation.navigate("Home")} />
+        {/* 나중에 페이지 연결해줘야 함 */}
+        <Text>열람시 좌석배정 </Text>
+        <Text>스터디룸 시설물예약</Text>
+        <Text>자료검색</Text>
+        <Text>자유게시판</Text>
       </View>
-
-    
-      {/*자료 대출 내역하고 시설 예약 내역은 같은 스타일이지만 둘이 다르기 때문에 View를 나눠서 만들어 줌*/}
       <View>
-        <Text>시설 예약 내역</Text>
-      </View>
-
-      {/* 자료 대출 내역은 아직 백엔드에서 덜 만든 거 같음*/}
-      <View>
-        <Text>자료 대출 내역</Text>
+        <View>
+          <Text>시설 예약 내역</Text>
+          {/* <Text>시설 예약 정보가 없습니다</Text> */}
+          {/* <Text>{`${facil_lists}`}</Text> */}
+        </View>
+        <View>
+          <Text>자료 대출 예내역</Text>
+          {/* <Text>자료 대출 정보가 없습니다</Text> */}
+          {/* <Text>{`${data_lists}`}</Text> */}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -122,7 +172,4 @@ const DashScreen = ({ navigation }) => {
 export default DashScreen;
 
 const styles = StyleSheet.create({});
-
-
-
-{/* */}
+// 추후 추가 예정

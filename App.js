@@ -12,6 +12,10 @@ import LoginScreen from "./screens/LoginScreen";
 import Auth from "./functions/auth"
 import Post from "./screens/PostScreen";
 import DashScreen from "./screens/DashScreen";
+import Forward from './screens/APITestForward';
+import Middle from './screens/APITestMiddle';
+import Reading from './screens/reaingroom';
+import End from './screens/APITestEnd';
 const Stack = createNativeStackNavigator();
 
 
@@ -28,6 +32,10 @@ function App(){
       <Stack.Screen name="Auth" component={Auth}/>
       <Stack.Screen name="Post" component={Post}/>
       <Stack.Screen name="Dash" component={DashScreen}/>
+      <Stack.Screen name="Forward" component={Forward} />
+      <Stack.Screen name="Middle" component={Middle} />
+      <Stack.Screen name="End" component={End} />
+      <Stack.Screen name="Reading" component={Reading} />
     </Stack.Navigator>
   </NavigationContainer>
 }
